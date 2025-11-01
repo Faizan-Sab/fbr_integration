@@ -242,3 +242,68 @@ app_license = "mit"
 # 	"Logging DocType Name": 30  # days to retain logs
 # }
 
+fixtures = [
+    # Export all 12 DocTypes for your app
+    {
+        "dt": "DocType",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export all 60 Custom Fields
+    {
+        "dt": "Custom Field",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export all 3 Property Setters
+    {
+        "dt": "Property Setter",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export all Client Scripts (2)
+    {
+        "dt": "Client Script",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export all Server Scripts
+    {
+        "dt": "Server Script",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export Print Formats
+    {
+        "dt": "Print Format",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export Notifications
+    {
+        "dt": "Notification",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+    
+    # Export Workspace
+    {
+        "dt": "Workspace",
+        "filters": [
+            ["module", "=", "FBR Integration"]
+        ]
+    },
+]

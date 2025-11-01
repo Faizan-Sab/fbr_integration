@@ -1,0 +1,21 @@
+[
+ {
+  "allow_guest": 0,
+  "api_method": null,
+  "cron_format": null,
+  "disabled": 0,
+  "docstatus": 0,
+  "doctype": "Server Script",
+  "doctype_event": "Before Save",
+  "enable_rate_limit": 0,
+  "event_frequency": "All",
+  "modified": "2025-10-08 13:22:05.284695",
+  "module": "FBR Integration",
+  "name": "Sales Tax Calculation",
+  "rate_limit_count": 5,
+  "rate_limit_seconds": 86400,
+  "reference_doctype": "Sales Invoice",
+  "script": "for item in doc.items:\r\n    # Reset tax values\r\n    item.custom_sales_tax_rate = 0\r\n    item.custom_further_tax_rate = 0\r\n    item.custom_extra_tax_rate = 0\r\n    item.custom_sales_tax = 0\r\n    item.custom_further_tax = 0\r\n    item.custom_extra_tax = 0\r\n    item.custom_total_tax_amount = 0\r\n    item.custom_tax_inclusive_amount = 0\r\n\r\n    if item.item_tax_template:\r\n        tax_details = frappe.get_all(\"Item Tax Template Detail\",\r\n            filters={\"parent\": item.item_tax_template},\r\n            fields=[\"tax_type\", \"tax_rate\"]\r\n        )\r\n\r\n        for tax in tax_details:\r\n            if \"2301 - Sales Tax - ARM\" in tax.tax_type:         # Use your Own GL Account From Chart of Account...\r\n                item.custom_sales_tax_rate = tax.tax_rate or 0\r\n            elif \"2302 - Extra Tax - ARM\" in tax.tax_type:             # Use your Own GL Account From Chart of Account...\r\n                item.custom_further_tax_rate = tax.tax_rate or 0\r\n            elif \"2303 - Further Tax - ARM\" in tax.tax_type:               # Use your Own GL Account From Chart of Account...\r\n                item.custom_extra_tax_rate = tax.tax_rate or 0\r\n\r\n        if item.amount:\r\n            item.custom_sales_tax = (item.amount * item.custom_sales_tax_rate) / 100\r\n            item.custom_further_tax = (item.amount * item.custom_further_tax_rate) / 100\r\n            item.custom_extra_tax = (item.amount * item.custom_extra_tax_rate) / 100\r\n\r\n            item.custom_total_tax_amount = (\r\n                item.custom_sales_tax +\r\n                item.custom_further_tax +\r\n                item.custom_extra_tax\r\n            )\r\n\r\n            item.custom_tax_inclusive_amount = item.amount + item.custom_total_tax_amount",
+  "script_type": "DocType Event"
+ }
+]
